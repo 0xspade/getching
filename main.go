@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
-    "io/ioutil"
+    	"io/ioutil"
 	"github.com/tomnomnom/gahttp"
 	"golang.org/x/net/html"
 	"github.com/fatih/color"
@@ -52,7 +52,6 @@ func extractTitle(req *http.Request, resp *http.Response, err error) {
 		}
 
 		t := z.Token()
-		fmt.Printf("Debug: %s\n", yellow(t))
 		if t.Type == html.StartTagToken {
 			if t.Data == "title" {
 				if z.Next() == html.TextToken {
