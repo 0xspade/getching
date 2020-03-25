@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
-    	"io/ioutil"
+    "io/ioutil"
 	"github.com/tomnomnom/gahttp"
 	"golang.org/x/net/html"
 	"github.com/fatih/color"
@@ -36,8 +36,10 @@ func extractTitle(req *http.Request, resp *http.Response, err error) {
 	if err != nil {
 		return
 	}
-
+	fmt.Printf(req.URL)
 	z := html.NewTokenizer(resp.Body)
+
+
 	for {
 		red := color.New(color.FgRed).SprintFunc()
 		yellow := color.New(color.FgYellow).SprintFunc()
@@ -52,17 +54,17 @@ func extractTitle(req *http.Request, resp *http.Response, err error) {
 		}
 
 		t := z.Token()
-		if t.Type == html.StartTagToken {
-			if t.Data == "title" {
+		if t.Type == html.StartTagToken && t.Data == "title" {
 				if z.Next() == html.TextToken {
-					title := strings.TrimSpace(z.Token().Data)
+
+				title := strings.TrimSpace(z.Token().Data)
+
 					if len([]rune(title)) != 0 && title != "" {
 						fmt.Printf("[ %s ] %s (%s) [ %s ]\n", status(resp.StatusCode), cyan(title), yellow(req.URL), red(len(bs)))
 					} else {
 						fmt.Printf("[ %s ] Blank Title (%s) [ %s ]\n", status(resp.StatusCode), yellow(req.URL), red(len(bs)))
 					}				
 					break
-				}
 			} 
 		}
 	}
