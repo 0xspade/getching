@@ -55,9 +55,7 @@ func extractTitle(req *http.Request, resp *http.Response, err error) {
 		if t.Type == html.StartTagToken {
 			if t.Data == "title" {
 				if z.Next() == html.TextToken {
-					//fmt.Printf(z.Token().Data)
 					title := strings.TrimSpace(z.Token().Data)
-					fmt.Printf("Debug: %s\n", yellow(title))
 					if len([]rune(title)) != 0 && title != "" {
 						fmt.Printf("[ %s ] %s (%s) [ %s ]\n", status(resp.StatusCode), cyan(title), yellow(req.URL), red(len(bs)))
 					} else {
